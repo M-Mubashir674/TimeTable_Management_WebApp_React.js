@@ -1,10 +1,18 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import Dataservices from "../Dataservices";
 
 const SignInForm = () => {
-  
+  let navigate = useNavigate();
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    console.log(values);
+    Dataservices.validate(values).then(res => {
+      console.log(res.data);
+      if(res.data=='OK'){
+        navigate('/sign');
+      }
+    }).catch(err => console.log(err));
   };
 
   return (
