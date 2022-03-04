@@ -91,8 +91,8 @@ const InsList = () => {
 
     return (
         <div>
-            <CollectionsPage instructor={instructor} setInstructor={setInstructor} createDep={createIns}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} uinstructor={uinstructor} setuInstructor={setuInstructor}/>
+            <CollectionsPage setInstructor={setInstructor}/>
+            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} setuInstructor={setuInstructor}/>
             <Table dataSource={instructors} columns={columns} />;
         </div>
     );

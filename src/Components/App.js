@@ -1,22 +1,20 @@
 import SignInForm from "./SignInForm";
 import Sider from "./Sider";
 import { Routes,Route } from "react-router-dom";
-import Dataservices from "../Dataservices";
 import DepartmentsList from "./Department/DepartmentsList";
+import CourseList from "./Course/CourseList";
 import InsList from "./Instructor/InsList";
 
 const App = () => {
 
-  const getData = () => {
-    Dataservices.getAll().then(res => console.log(res.data)).catch(e => console.log(e));
-  }
-
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<InsList/>}/>
-        <Route path='/si' element={<SignInForm/>}/>
-        <Route path='/sign' element={<Sider/>}/>
+        <Route path='/ins' element={<InsList/>}/>
+        <Route path='/dep' element={<DepartmentsList/>}/>
+        <Route path='/course' element={<CourseList/>}/>
+        <Route path='/sign' element={<SignInForm/>}/>
+        <Route path='/token' element={<Sider/>}/>
       </Routes>
     </div>
   );

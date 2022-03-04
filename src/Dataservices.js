@@ -18,6 +18,22 @@ class DataServices{
 
 
 
+    getAllCourses(){
+        return http.get("/courses");
+    }
+    deleteCourse(id){
+        return http.delete(`/course/${id}`);
+    }
+    createCourse(name,chour,ins,dep){
+        return http.post(`/course/${name}/${chour}/${ins}/${dep}`);
+    }
+    updateCourse(id,name,chour,ins,dep){
+        return http.put(`/course/${id}/${name}/${chour}/${ins}/${dep}`);
+    }
+    findCourse(id){
+        return http.get(`/course/${id}`);
+    }
+
     getAllInstructors(){
         return http.get("/instructors");
     }
@@ -33,7 +49,6 @@ class DataServices{
     findInstructor(id){
         return http.get(`/instructor/${id}`);
     }
-
 
 
     create(data){

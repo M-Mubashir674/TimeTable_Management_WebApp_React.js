@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input} from 'antd';
+import { Button, Modal, Form, Input,Select} from 'antd';
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel,ins,dep }) => {
   const [form] = Form.useForm();
+  const {Option} = Select ;
   return (
     <Modal
       visible={visible}
-      title="Create Department"
+      title="Create Course"
       okText="Create"
       cancelText="Cancel"
       onCancel={onCancel}
@@ -42,22 +43,42 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="semester" label="Semester">
+        <Form.Item name="creditHour" label="Credit Hour">
           <Input type="text" />
         </Form.Item>
-        <Form.Item name="section" label="Section">
-          <Input type="text" />
+
+        
+        <Form.Item name="instructor" label="Instructor" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select Instructor"
+            allowClear
+          >
+            {
+              ins.map(inst => <Option key={inst._id} value={inst._id}>{inst.name}</Option>)
+            }
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="department" label="Department" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select Department"
+            allowClear
+          >
+            {
+              dep.map(dept => <Option key={dept._id} value={dept._id}>{dept.name}/{dept.semester}/{dept.section}</Option>)
+            }
+          </Select>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-const CollectionsPage = ({setDepartment}) => {
+const CollectionsPage = ({setCourse,ins,dep}) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = (values) => {
-    setDepartment({name:values.name,semester:values.semester,section:values.section});  
+    setCourse({name:values.name,creditHour:values.creditHour,instructor:values.instructor,department:values.department});  
     setVisible(false);
   };
 
@@ -77,6 +98,8 @@ const CollectionsPage = ({setDepartment}) => {
         onCancel={() => {
           setVisible(false);
         }}
+        ins={ins}
+        dep={dep}
       />
     </div>
   );

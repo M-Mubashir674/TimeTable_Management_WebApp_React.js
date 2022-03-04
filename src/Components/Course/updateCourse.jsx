@@ -1,15 +1,16 @@
 import React, { useEffect} from 'react';
-import {Modal, Form, Input} from 'antd';
+import {Modal, Form, Input,Select} from 'antd';
 
-const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
+const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,ins,dep }) => {
   const [form] = Form.useForm();  
-  
+  const {Option} = Select ;
   useEffect(()=>{
     if(visible){
       form.setFieldsValue({
         name:formData.name,
-        semester:formData.semester,
-        section:formData.section        
+        creditHour:formData.chour,
+        instructor:formData.ins ,       
+        department:formData.dep        
       })
     }
   },[visible])
@@ -17,7 +18,7 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
   return (
     <Modal
       visible={visible}
-      title="Update Department"
+      title="Update Course"
       okText="Update"
       cancelText="Cancel"
       onCancel={onCancel}
@@ -51,13 +52,33 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
             },
           ]}
         >
-          <Input/>
+          <Input />
         </Form.Item>
-        <Form.Item name="semester" label="Semester">
-          <Input type="text"/>
-        </Form.Item>
-        <Form.Item name="section" label="Section">
+        <Form.Item name="creditHour" label="Credit Hour">
           <Input type="text" />
+        </Form.Item>
+
+        
+        <Form.Item name="instructor" label="Instructor" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select Instructor"
+            allowClear
+          >
+            {
+              ins.map(inst => <Option key={inst._id} value={inst._id}>{inst.name}</Option>)
+            }
+          </Select>
+        </Form.Item>
+
+        <Form.Item name="department" label="Department" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select Department"
+            allowClear
+          >
+            {
+              dep.map(dept => <Option key={dept._id} value={dept._id}>{dept.name}/{dept.semester}/{dept.section}</Option>)
+            }
+          </Select>
         </Form.Item>
       </Form>
 
@@ -65,10 +86,10 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
   );
 };
 
-const CollectionsPage1 = ({visible,setVisible,formData,setuDepartment}) => {
+const CollectionsPage1 = ({visible,setVisible,formData,setuCourse,ins,dep}) => {
   const onCreate = (values) => {
     setVisible(false);
-    setuDepartment({name:values.name,semester:values.semester,section:values.section});
+    setuCourse({name:values.name,chour:values.creditHour,ins:values.instructor,dep:values.department});
   };
   return (
     <div>
@@ -80,6 +101,9 @@ const CollectionsPage1 = ({visible,setVisible,formData,setuDepartment}) => {
         onCancel={() => {
           setVisible(false);
         }}
+        ins={ins}
+        dep={dep}
+        key="updateCourse"
       />
     </div>
   );

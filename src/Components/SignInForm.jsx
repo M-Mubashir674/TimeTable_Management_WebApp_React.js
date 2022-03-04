@@ -9,7 +9,7 @@ const SignInForm = () => {
     console.log(values);
     Dataservices.validate(values).then(res => {
       console.log(res.data);
-      if(res.data=='OK'){
+      if(res.data==='OK'){
         navigate('/sign');
       }
     }).catch(err => console.log(err));

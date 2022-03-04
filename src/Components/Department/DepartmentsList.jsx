@@ -91,8 +91,8 @@ const DepartmentsList = () => {
 
     return (
         <div>
-            <CollectionsPage department={department} setDepartment={setDepartment} createDep={createDep}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} udepartment={udepartment} setuDepartment={setuDepartment}/>
+            <CollectionsPage setDepartment={setDepartment}/>
+            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} setuDepartment={setuDepartment}/>
             <Table dataSource={departments} columns={columns} />;
         </div>
     );

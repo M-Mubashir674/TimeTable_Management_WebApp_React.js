@@ -53,7 +53,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const CollectionsPage = ({instructor,setInstructor,createIns}) => {
+const CollectionsPage = ({setInstructor}) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = (values) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import {Modal, Form, Input} from 'antd';
 
 const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
@@ -65,7 +65,7 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
   );
 };
 
-const CollectionsPage1 = ({visible,setVisible,formData,uinstructor,setuInstructor}) => {
+const CollectionsPage1 = ({visible,setVisible,formData,setuInstructor}) => {
   const onCreate = (values) => {
     setVisible(false);
     setuInstructor({name:values.name,email:values.email,qual:values.qual});
