@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Input,Select} from 'antd';
+import {
+  PlusOutlined,
+} from '@ant-design/icons';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel,ins,dep }) => {
   const [form] = Form.useForm();
@@ -85,6 +88,7 @@ const CollectionsPage = ({setCourse,ins,dep}) => {
   return (
     <div>
       <Button
+        icon ={<PlusOutlined/>}
         type="primary"
         onClick={() => {
           setVisible(true);

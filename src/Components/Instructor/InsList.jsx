@@ -4,7 +4,11 @@ import Dataservices from "../../Dataservices";
 import CollectionsPage from "./createIns";
 import CollectionsPage1 from "./updateIns";
 import { Button, Table } from "antd";
-
+import {
+    EditOutlined,
+    DeleteOutlined
+} from '@ant-design/icons';
+  
 
 const InsList = () => {
 
@@ -83,8 +87,8 @@ const InsList = () => {
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
-            render:(id) => {return <div><Button type='danger' onClick={() => deleteIns(id)}>Delete</Button>
-                <Button type='primary' onClick={() => updateModal(id)}>Update</Button></div>
+            render:(id) => {return <div><Button type='danger' icon={<DeleteOutlined/>} onClick={() => deleteIns(id)}>Delete</Button>
+                <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
             }
         }
         ];

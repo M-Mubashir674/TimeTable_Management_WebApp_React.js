@@ -2,27 +2,34 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Dataservices from "../Dataservices";
+import { Row, Col } from 'antd';
 
-const SignInForm = () => {
+const SignInForm = ({setUser}) => {
   let navigate = useNavigate();
   const onFinish = (values) => {
     console.log(values);
     Dataservices.validate(values).then(res => {
       console.log(res.data);
       if(res.data==='OK'){
-        navigate('/sign');
+        setUser(values.username);
+        navigate('/token');
       }
     }).catch(err => console.log(err));
   };
 
   return (
+    <>
+    <Row>
+      <Col span={6} offset = {8} style={{background:"white" , borderRadius:"15px", marginTop:"10%", padding:"0px 36px 0px 15px", boxShadow:"0px 13px 20px #00000014" }}>  
+      <h4 style={{padding:"15px"}}>Login</h4>
     <Form
       name="normal_login"
       className="login-form"
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+
+      
     >
       <Form.Item
         name="username"
@@ -67,6 +74,9 @@ const SignInForm = () => {
         Or <a href="">register now!</a>
       </Form.Item>
     </Form>
+    </Col>
+    </Row>
+  </>
   );
 };
 

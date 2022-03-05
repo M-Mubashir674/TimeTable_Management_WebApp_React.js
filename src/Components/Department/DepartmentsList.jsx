@@ -5,6 +5,12 @@ import CollectionsPage from "./createDep";
 import CollectionsPage1 from "./updateDep";
 import { Button, Table } from "antd";
 
+import {
+    EditOutlined,
+    DeleteOutlined
+} from '@ant-design/icons';
+import { icons } from "antd/lib/image/PreviewGroup";
+  
 
 const DepartmentsList = () => {
 
@@ -83,8 +89,8 @@ const DepartmentsList = () => {
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
-            render:(id) => {return <div><Button type='danger' onClick={() => deleteDep(id)}>Delete</Button>
-                <Button type='primary' onClick={() => updateModal(id)}>Update</Button></div>
+            render:(id) => {return <div><Button type='danger' onClick={() => deleteDep(id)} icon={<DeleteOutlined/>}>Delete</Button>
+                <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
             }
         }
         ];

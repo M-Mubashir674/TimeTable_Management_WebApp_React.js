@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Input} from 'antd';
+import {
+  PlusOutlined,
+} from '@ant-design/icons';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -68,6 +71,7 @@ const CollectionsPage = ({setDepartment}) => {
         onClick={() => {
           setVisible(true);
         }}
+        icon={<PlusOutlined/>}
       >
         New Collection
       </Button>

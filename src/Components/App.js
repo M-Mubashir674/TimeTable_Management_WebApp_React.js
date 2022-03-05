@@ -1,23 +1,20 @@
 import SignInForm from "./SignInForm";
 import Sider from "./Sider";
 import { Routes,Route } from "react-router-dom";
-import DepartmentsList from "./Department/DepartmentsList";
-import CourseList from "./Course/CourseList";
-import InsList from "./Instructor/InsList";
+import { useState } from "react";
 
 const App = () => {
+  const [user,setUser] = useState("admin"); 
 
   return (
-    <div className="App">
+    <div className="App" >
       <Routes>
-        <Route path='/ins' element={<InsList/>}/>
-        <Route path='/dep' element={<DepartmentsList/>}/>
-        <Route path='/course' element={<CourseList/>}/>
-        <Route path='/sign' element={<SignInForm/>}/>
-        <Route path='/token' element={<Sider/>}/>
+        <Route path='/' element={<SignInForm setUser={setUser}/>}/>
+        <Route path='/token/*' element={<Sider user={user}/>}/>
       </Routes>
     </div>
   );
 }
 
 export default App;
+// style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}

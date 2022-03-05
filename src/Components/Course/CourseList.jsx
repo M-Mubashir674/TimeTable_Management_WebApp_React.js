@@ -3,9 +3,13 @@ import Dataservices from "../../Dataservices";
 import CollectionsPage from "./createCourse";
 import CollectionsPage1 from "./updateCourse";
 import { Button, Table } from "antd";
+import {
+    EditOutlined,
+    DeleteOutlined
+} from '@ant-design/icons';
+  
 
-
-const CoursesList = () => {
+const CourseList = () => {
 
     const [courses,setCourses] = useState([]);
     const [ins,setIns] = useState([]);
@@ -104,8 +108,8 @@ const CoursesList = () => {
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
-            render:(id) => {return <div key={id}><Button type='danger' onClick={() => deleteCourse(id)}>Delete</Button>
-                <Button type='primary' onClick={() => updateModal(id)}>Update</Button></div>
+            render:(id) => {return <div key={id}><Button type='danger' icon={<DeleteOutlined/>} onClick={() => deleteCourse(id)}>Delete</Button>
+                <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
             }
         }
         ];
@@ -120,4 +124,4 @@ const CoursesList = () => {
 
 }
 
-export default CoursesList;
+export default CourseList;

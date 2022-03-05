@@ -50,6 +50,21 @@ class DataServices{
         return http.get(`/instructor/${id}`);
     }
 
+    getAllTimetable(){
+        return http.get("/timetable");
+    }
+    deleteTimetable(id){
+        return http.delete(`/timetable/${id}`);
+    }
+    createTimetable(id,subj,room){
+        return http.post(`/timetable/${id}/${subj}/${room}`);
+    }
+    updateTimetable(id,subj,room){
+        return http.put(`/timetable/${id}/${subj}/${room}`);
+    }
+    findTimetable(id){
+        return http.get(`/timetable/${id}`);
+    }
 
     create(data){
         return http.post("/tutorial",data);
