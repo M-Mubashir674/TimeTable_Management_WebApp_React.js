@@ -89,7 +89,7 @@ const Sider = ({user}) => {
               </Routes>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>TimeTable Management System ©2021 Created by IBA Students</Footer>
+          <Footer style={{ textAlign: 'center' }}>TimeTable Management System ©2022 Created by IBA Students</Footer>
         </Layout>
       </Layout>
 

@@ -27,8 +27,10 @@ const TmList = () => {
 	const [section,setSection] = useState(null);
 
     useEffect(()=> {
-            Dataservices.getAllInstructors().then(res => setIns(res.data));
+		if(!dep.length){
             Dataservices.getAllDepartments().then(res => setDep(res.data));
+		}
+            Dataservices.getAllInstructors().then(res => setIns(res.data));
 			Dataservices.getAllCourses().then(res => setCour(res.data));
     },[]);
 
@@ -183,13 +185,13 @@ const TmList = () => {
 	]
     return (
         <div>
-			<Select
+			      <Select
 				placeholder="Select Department"
 				allowClear
 				onChange={(value) => setDepart(value) }
 			>
 			{
-				dep.map(dd => <Option key={new Date()} value={dd.name}>{dd.name}</Option>)
+				dep.map(dd => {return <Option key={dd} value={dd.name}>{dd.name}</Option>})
 			}
 			</Select>
 			<Select
