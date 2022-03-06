@@ -17,4 +17,4 @@ const App = () => {
 }
 
 export default App;
-// style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}
+// 

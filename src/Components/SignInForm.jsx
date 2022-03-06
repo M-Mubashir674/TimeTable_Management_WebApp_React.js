@@ -28,8 +28,7 @@ const SignInForm = ({setUser}) => {
       initialValues={{
         remember: true,
       }}
-
-      
+      onFinish={onFinish}
     >
       <Form.Item
         name="username"
