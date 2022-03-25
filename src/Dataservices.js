@@ -6,11 +6,11 @@ class DataServices{
     deleteDepartment(id){
         return http.delete(`/department/${id}`);
     }
-    createDepartment(name,semester,section){
-        return http.post(`/department/${name}/${semester}/${section}`);
+    createDepartment(department){
+        return http.post("/department",department);
     }
-    updateDepartment(id,name,semester,section){
-        return http.put(`/department/${id}/${name}/${semester}/${section}`);
+    updateDepartment(department){
+        return http.put("/department",department);
     }
     findDepartment(id){
         return http.get(`/department/${id}`);
@@ -24,11 +24,11 @@ class DataServices{
     deleteCourse(id){
         return http.delete(`/course/${id}`);
     }
-    createCourse(name,chour,ins,dep){
-        return http.post(`/course/${name}/${chour}/${ins}/${dep}`);
+    createCourse(courses){
+        return http.post("/course",courses);
     }
-    updateCourse(id,name,chour,ins,dep){
-        return http.put(`/course/${id}/${name}/${chour}/${ins}/${dep}`);
+    updateCourse(courses){
+        return http.put("/course",courses);
     }
     findCourse(id){
         return http.get(`/course/${id}`);
@@ -40,11 +40,11 @@ class DataServices{
     deleteInstructor(id){
         return http.delete(`/instructor/${id}`);
     }
-    createInstructor(name,email,qual){
-        return http.post(`/instructor/${name}/${email}/${qual}`);
+    createInstructor(instructor){
+        return http.post("/instructor",instructor);
     }
-    updateInstructor(id,name,email,qual){
-        return http.put(`/instructor/${id}/${name}/${email}/${qual}`);
+    updateInstructor(instructor){
+        return http.put("/instructor",instructor);
     }
     findInstructor(id){
         return http.get(`/instructor/${id}`);
@@ -56,24 +56,24 @@ class DataServices{
     deleteTimetable(id){
         return http.delete(`/timetable/${id}`);
     }
-    createTimetable(id,subj,room){
-        return http.post(`/timetable/${id}/${subj}/${room}`);
+    createTimetable(timetable){
+        return http.post("/timetable",timetable);
     }
-    updateTimetable(id,subj,room){
-        return http.put(`/timetable/${id}/${subj}/${room}`);
+    updateTimetable(timetable){
+        return http.put("/timetable",timetable);
     }
     findTimetable(id){
         return http.get(`/timetable/${id}`);
     }
 
     create(data){
-        return http.post("/tutorial",data);
+        return http.post("/user",data);
     }
     update(id,data){
-        return http.put(`/tutorial${id}`,data);
+        return http.put(`/user${id}`,data);
     }
     delete(id){
-        return http.delete(`/tutorial${id}`);
+        return http.delete(`/user${id}`);
     }
     validate(data){
         return http.get(`/users/${data.username}/${data.password}`);

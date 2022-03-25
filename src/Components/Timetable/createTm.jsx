@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Form, Input,Select} from 'antd';
+import Dataservices from '../../Dataservices';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel,cour}) => {
   const [form] = Form.useForm();
@@ -38,12 +39,12 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,cour}) => {
             allowClear
           >
             {
-              cour.map(cor => <Option key={cor._id} value={cor._id}>{cor.name}</Option>)
+              cour.map((cor,index) => <Option key={index} value={cor._id}>{cor.name}</Option>)
             }
           </Select>
         </Form.Item>
         
-        <Form.Item name="room" label="Room">
+        <Form.Item name="room" label="Room" rules={[{ required: true }]}>
           <Input type="text" />
         </Form.Item>
 
@@ -52,9 +53,10 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,cour}) => {
   );
 };
 
-const CollectionsPage = ({setTimetable,cour,ins,form,setForm}) => {  
+const CollectionsPage = ({cour,form,setForm,ttmId}) => {  
   const onCreate = (values) => {
-    setTimetable({subj:values.subj,room:values.room}); 
+    Dataservices.createTimetable({id:ttmId,subj:cour.find(course => course._id==values.subj),room:values.room})
+    .then(res => console.log(res)).catch(er => console.log(er)); 
     setForm(false);
   };
 

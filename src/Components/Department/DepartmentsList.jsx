@@ -9,36 +9,17 @@ import {
     EditOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
-import { icons } from "antd/lib/image/PreviewGroup";
   
 
 const DepartmentsList = () => {
 
     const [departments,setDepartments] = useState([]);
-    const [department,setDepartment] = useState(null);
-    const [udepartment,setuDepartment] = useState(null);
-    const [depId,setdepId] = useState("");
     const [visible, setVisible] = useState(false);
     const [formData,setFormData] = useState({name:"",semester:"",section:""});
 
-    useEffect(()=> {
-        if(department)
-        {
-            createDep();
+    useEffect(async ()=> {
             reloadDepList();
-        }else{
-            reloadDepList();
-        }
-    },[department]);
-    useEffect(()=> {
-        if(udepartment)
-        {
-            updateDep();
-            reloadDepList();
-        }else{
-            reloadDepList();
-        }
-    },[udepartment]);
+    },[departments]);
 
     const reloadDepList = ()=>{
         Dataservices.getAllDepartments()
@@ -54,19 +35,8 @@ const DepartmentsList = () => {
            })
     }
 
-    const createDep =() => {
-        Dataservices.createDepartment(department.name,department.semester,department.section)
-           .then(res => {
-               console.log(res);
-        })
-    }
-
     const updateModal = (id) =>{
-        Dataservices.findDepartment(id).then(res => setFormData({name:res.data.name,semester:res.data.semester,section:res.data.section})).then(() => setVisible(true)).catch(err => console.log(err));
-        setdepId(id);
-    }
-    const updateDep = () => {
-        Dataservices.updateDepartment(depId,udepartment.name,udepartment.semester,udepartment.section);
+        Dataservices.findDepartment(id).then(res => setFormData({id:id,name:res.data.name,semester:res.data.semester,section:res.data.section})).then(() => setVisible(true)).catch(err => console.log(err));
     }
 
     const columns = [
@@ -97,9 +67,9 @@ const DepartmentsList = () => {
 
     return (
         <div>
-            <CollectionsPage setDepartment={setDepartment}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} setuDepartment={setuDepartment}/>
-            <Table dataSource={departments} columns={columns} />;
+            <CollectionsPage/>
+            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            <Table dataSource={departments} columns={columns}  pagination={{ pageSize: 5}}/>;
         </div>
     );
 

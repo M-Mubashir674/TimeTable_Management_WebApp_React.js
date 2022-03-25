@@ -1,5 +1,6 @@
 import React, { useEffect} from 'react';
 import {Modal, Form, Input} from 'antd';
+import Dataservices from '../../Dataservices';
 
 const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
   const [form] = Form.useForm();  
@@ -53,10 +54,10 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
         >
           <Input/>
         </Form.Item>
-        <Form.Item name="semester" label="Semester">
+        <Form.Item name="semester" label="Semester" rules={[{ required: true }]}>
           <Input type="text"/>
         </Form.Item>
-        <Form.Item name="section" label="Section">
+        <Form.Item name="section" label="Section" rules={[{ required: true }]}>
           <Input type="text" />
         </Form.Item>
       </Form>
@@ -65,10 +66,11 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel }) => {
   );
 };
 
-const CollectionsPage1 = ({visible,setVisible,formData,setuDepartment}) => {
+const CollectionsPage1 = ({visible,setVisible,formData}) => {
   const onCreate = (values) => {
     setVisible(false);
-    setuDepartment({name:values.name,semester:values.semester,section:values.section});
+    Dataservices.updateDepartment({id:formData.id,name:values.name,semester:values.semester,section:values.section})
+    .then(res => console.log(res)).catch(err => console.log(err));
   };
   return (
     <div>

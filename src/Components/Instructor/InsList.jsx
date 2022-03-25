@@ -8,35 +8,17 @@ import {
     EditOutlined,
     DeleteOutlined
 } from '@ant-design/icons';
+import { render } from "react-dom";
   
 
 const InsList = () => {
 
     const [instructors,setInstructors] = useState([]);
-    const [instructor,setInstructor] = useState(null);
-    const [uinstructor,setuInstructor] = useState(null);
-    const [insId,setInsId] = useState("");
     const [visible, setVisible] = useState(false);
     const [formData,setFormData] = useState({name:"",email:"",qual:""});
-
     useEffect(()=> {
-        if(instructor)
-        {
-            createIns();
             reloadInsList();
-        }else{
-            reloadInsList();
-        }
-    },[instructor]);
-    useEffect(()=> {
-        if(uinstructor)
-        {
-            updateIns();
-            reloadInsList();
-        }else{
-            reloadInsList();
-        }
-    },[uinstructor]);
+    },[instructors]);
 
     const reloadInsList = ()=>{
         Dataservices.getAllInstructors()
@@ -52,19 +34,8 @@ const InsList = () => {
            })
     }
 
-    const createIns =() => {
-        Dataservices.createInstructor(instructor.name,instructor.email,instructor.qual)
-           .then(res => {
-               console.log(res);
-        })
-    }
-
     const updateModal = (id) =>{
-        Dataservices.findInstructor(id).then(res => setFormData({name:res.data.name,email:res.data.email,qual:res.data.qualification})).then(() => setVisible(true)).catch(err => console.log(err));
-        setInsId(id);
-    }
-    const updateIns = () => {
-        Dataservices.updateInstructor(insId,uinstructor.name,uinstructor.email,uinstructor.qual);
+        Dataservices.findInstructor(id).then(res => setFormData({id:id,name:res.data.name,email:res.data.email,qual:res.data.qualification})).then(() => setVisible(true)).catch(err => console.log(err));
     }
 
     const columns = [
@@ -95,9 +66,9 @@ const InsList = () => {
 
     return (
         <div>
-            <CollectionsPage setInstructor={setInstructor}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} setuInstructor={setuInstructor}/>
-            <Table dataSource={instructors} columns={columns} />;
+            <CollectionsPage/>
+            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            <Table dataSource={instructors} columns={columns} pagination={{ pageSize: 5}}/>;
         </div>
     );
 

@@ -14,39 +14,18 @@ const CourseList = () => {
     const [courses,setCourses] = useState([]);
     const [ins,setIns] = useState([]);
     const [dep,setDep] = useState([]);
-    const [course,setCourse] = useState(null);
-    const [ucourse,setuCourse] = useState(null);    
     const [courseId,setcourseId] = useState("");
     const [visible, setVisible] = useState(false);
     const [formData,setFormData] = useState({name:"",chour:"",ins:"",dep:""});
 
-    useEffect(()=> {
-        if(ins){
-            Dataservices.getAllInstructors().then(res => setIns(res.data));
-        }
-        if(dep){
-            Dataservices.getAllDepartments().then(res => setDep(res.data));
-        }
+    useEffect(async ()=> {
+            await Dataservices.getAllInstructors().then(res => setIns(res.data));
+            await Dataservices.getAllDepartments().then(res => setDep(res.data));
     },[]);
 
     useEffect(()=> {
-        if(course)
-        {
-            createCourse();
-            reloadCourseList();
-        }else{
-            reloadCourseList();
-        }
-    },[course]);
-    useEffect(()=> {
-        if(ucourse)
-        {
-            updateCourse();
-            reloadCourseList();
-        }else{
-            reloadCourseList();
-        }
-    },[ucourse]);
+        reloadCourseList();
+    },[courses]);
 
     const reloadCourseList = ()=>{
         Dataservices.getAllCourses()
@@ -58,23 +37,14 @@ const CourseList = () => {
     const deleteCourse =(cId) => {
         Dataservices.deleteCourse(cId)
            .then(res => {
-               setCourse(courses.filter(cor => cor._id !== cor));
+               console.log(res);
            })
     }
 
-    const createCourse =() => {
-        Dataservices.createCourse(course.name,course.creditHour,course.instructor,course.department)
-           .then(res => {
-               console.log(res);
-        })
-    }
 
     const updateModal = (id) =>{
-        Dataservices.findCourse(id).then(res => setFormData({name:res.data.name,chour:res.data.creditHour,ins:res.data.instructor,dep:res.data.class})).then(() => setVisible(true)).catch(err => console.log(err));
+        Dataservices.findCourse(id).then(res => setFormData({id:id,name:res.data.name,chour:res.data.creditHour,ins:res.data.instructor,dep:res.data.class})).then(() => setVisible(true)).catch(err => console.log(err));
         setcourseId(id);
-    }
-    const updateCourse = () => {
-        Dataservices.updateCourse(courseId,ucourse.name,ucourse.chour,ucourse.ins,ucourse.dep);
     }
 
     const columns = [
@@ -92,16 +62,16 @@ const CourseList = () => {
             title: 'Instructor',
             dataIndex: 'instructor',
             key: 'instructor',
-            render:(id) => {
-                return ins.map(ind => {if(ind._id==id){return <span key={id}>{ind.name}</span>}})
+            render:(ins) => {
+                return <span key={ins._id}>{ins.name}</span>
             }
         },
         {
             title: 'Department',
             dataIndex: 'class',
             key: 'class',
-            render:(id) => {
-                return dep.map(dept => {if(dept._id==id){return <span key={id}>{dept.name}/{dept.semester}/{dept.section}</span>}})
+            render:(dept) => {
+                return <span key={dept._id}>{dept.name}/{dept.semester}/{dept.section}</span>;
             }
         },
         {
@@ -113,12 +83,11 @@ const CourseList = () => {
             }
         }
         ];
-
     return (
         <div>
-            <CollectionsPage setCourse={setCourse} ins={ins} dep={dep}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} setuCourse={setuCourse} ins={ins} dep={dep}/>
-            <Table dataSource={courses} columns={columns} />;
+            <CollectionsPage ins={ins} dep={dep}/>
+            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} ins={ins} dep={dep}/>
+            <Table dataSource={courses} columns={columns} pagination={{ pageSize: 5}} />;
         </div>
     );
 

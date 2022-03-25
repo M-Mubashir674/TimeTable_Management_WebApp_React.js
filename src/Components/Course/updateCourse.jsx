@@ -1,16 +1,15 @@
 import React, { useEffect} from 'react';
 import {Modal, Form, Input,Select} from 'antd';
+import Dataservices from '../../Dataservices';
 
-const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,ins,dep }) => {
+const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,instruct,depart }) => {
   const [form] = Form.useForm();  
   const {Option} = Select ;
   useEffect(()=>{
     if(visible){
       form.setFieldsValue({
         name:formData.name,
-        creditHour:formData.chour,
-        instructor:formData.ins ,       
-        department:formData.dep        
+        creditHour:formData.chour,   
       })
     }
   },[visible])
@@ -54,18 +53,17 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,ins,dep }) 
         >
           <Input />
         </Form.Item>
-        <Form.Item name="creditHour" label="Credit Hour">
+        <Form.Item name="creditHour" label="Credit Hour" rules={[{ required: true }]}>
           <Input type="text" />
         </Form.Item>
 
-        
         <Form.Item name="instructor" label="Instructor" rules={[{ required: true }]}>
           <Select
             placeholder="Select Instructor"
             allowClear
           >
             {
-              ins.map(inst => <Option key={inst._id} value={inst._id}>{inst.name}</Option>)
+              instruct && instruct.map(inst => <Option key={inst._id} value={inst._id}>{inst.name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -76,7 +74,7 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,ins,dep }) 
             allowClear
           >
             {
-              dep.map(dept => <Option key={dept._id} value={dept._id}>{dept.name}/{dept.semester}/{dept.section}</Option>)
+              depart && depart.map(dept => <Option key={dept._id} value={dept._id}>{dept.name}/{dept.semester}/{dept.section}</Option>)
             }
           </Select>
         </Form.Item>
@@ -86,10 +84,11 @@ const CollectionCreateForm = ({ visible,formData ,onCreate, onCancel,ins,dep }) 
   );
 };
 
-const CollectionsPage1 = ({visible,setVisible,formData,setuCourse,ins,dep}) => {
+const CollectionsPage1 = ({visible,setVisible,formData,ins,dep}) => {
   const onCreate = (values) => {
     setVisible(false);
-    setuCourse({name:values.name,chour:values.creditHour,ins:values.instructor,dep:values.department});
+    Dataservices.updateCourse({id:formData.id,name:values.name,chour:values.creditHour,ins:ins.find(ins => ins._id==values.instructor),dep:dep.find(dep => dep._id==values.department)})
+    .then(res => console.log(res)).catch(er => console.log(er));
   };
   return (
     <div>
@@ -101,9 +100,8 @@ const CollectionsPage1 = ({visible,setVisible,formData,setuCourse,ins,dep}) => {
         onCancel={() => {
           setVisible(false);
         }}
-        ins={ins}
-        dep={dep}
-        key="updateCourse"
+        instruct={ins}
+        depart={dep}
       />
     </div>
   );

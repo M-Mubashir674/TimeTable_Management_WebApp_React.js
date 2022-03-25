@@ -1,19 +1,19 @@
 import React, { useEffect} from 'react';
 import {Modal, Form, Input,Select} from 'antd';
+import Dataservices from '../../Dataservices';
 
-const CollectionCreateForm = ({formData ,onCreate, onCancel,form1,cor,ins }) => {
+const CollectionCreateForm = ({formData ,onCreate, onCancel,form1,cor}) => {
   const [form] = Form.useForm();  
   const {Option} = Select ;
   useEffect(()=>{
     if(form1){
       form.setFieldsValue({
-        subj:formData.subj,
+        subj:formData.subj._id,
         room:formData.room,      
       })
     }
   },[form1])
   
-	console.log(form1);
   return (
     <Modal
       visible={form1}
@@ -47,11 +47,11 @@ const CollectionCreateForm = ({formData ,onCreate, onCancel,form1,cor,ins }) => 
             allowClear
           >
             {
-              cor && cor.map(crs => <Option key={crs._id} value={crs._id}>{crs.name}/{ins.find(inst => inst._id===crs.instructor).name}</Option>)
+              cor && cor.map(crs => <Option key={crs._id} value={crs._id}>{crs.name && crs.name}/{crs.instructor.name}</Option>)
             }
           </Select>
         </Form.Item>
-        <Form.Item name="room" label="Room">
+        <Form.Item name="room" label="Room" rules={[{ required: true }]}>
           <Input type="text" />
         </Form.Item>
       </Form>
@@ -60,9 +60,10 @@ const CollectionCreateForm = ({formData ,onCreate, onCancel,form1,cor,ins }) => 
   );
 };
 
-const CollectionsPage1 = ({formData,setuTtm,cour,form1,setForm1,ins}) => {
+const CollectionsPage1 = ({formData,cour,form1,setForm1}) => {
   const onCreate = (values) => {
-    setuTtm({subj:values.subj,room:values.room});
+    Dataservices.updateTimetable({id:formData.id,subj:cour.find(course => course._id==values.subj),room:values.room})
+    .then(res => console.log(res)).catch(err => console.log(err));
     setForm1(false);
   };
   
@@ -76,8 +77,6 @@ const CollectionsPage1 = ({formData,setuTtm,cour,form1,setForm1,ins}) => {
         }}
         form1={form1}
         cor ={cour}
-        ins={ins}
-        key="updateCourse5"
       />
     </div>
   );

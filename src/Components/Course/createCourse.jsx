@@ -3,6 +3,7 @@ import { Button, Modal, Form, Input,Select} from 'antd';
 import {
   PlusOutlined,
 } from '@ant-design/icons';
+import Dataservices from '../../Dataservices';
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel,ins,dep }) => {
   const [form] = Form.useForm();
@@ -46,7 +47,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,ins,dep }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="creditHour" label="Credit Hour">
+        <Form.Item name="creditHour" label="Credit Hour" rules={[{ required: true }]}>
           <Input type="text" />
         </Form.Item>
 
@@ -77,11 +78,12 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,ins,dep }) => {
   );
 };
 
-const CollectionsPage = ({setCourse,ins,dep}) => {
+const CollectionsPage = ({ins,dep}) => {
   const [visible, setVisible] = useState(false);
-
   const onCreate = (values) => {
-    setCourse({name:values.name,creditHour:values.creditHour,instructor:values.instructor,department:values.department});  
+    console.log(values.instructor);
+    Dataservices.createCourse({name:values.name,chour:values.creditHour,ins:ins.find(ins => ins._id==values.instructor),dep:dep.find(dep => dep._id==values.department)})
+    .then(res => console.log(res)).catch(err => console.log(err));  
     setVisible(false);
   };
 

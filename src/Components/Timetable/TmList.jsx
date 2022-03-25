@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
     
 const TmList = () => {
+	let inst = '' ;
 	const {Option} = Select ;
 	const [form,setForm] = useState(false);
 	const [form1,setForm1] = useState(false);
@@ -17,44 +18,27 @@ const TmList = () => {
     const [ins,setIns] = useState([]);
     const [cour,setCour] = useState([]);
 	const [dep,setDep] = useState([]);
-    const [timetable,setTimetable] = useState(null);
-	const [data,setData] = useState(null);
-    const [uttm,setuTtm] = useState(null);    
+	const [data,setData] = useState(null); 
     const [ttmId,settmId] = useState("");
     const [formData,setFormData] = useState({subject:"",room:""});
 	const [depart,setDepart] = useState(null);
 	const [semester,setSemester] = useState(null);
 	const [section,setSection] = useState(null);
 
-    useEffect(()=> {
-		if(!dep.length){
-            Dataservices.getAllDepartments().then(res => setDep(res.data));
-		}
-            Dataservices.getAllInstructors().then(res => setIns(res.data));
-			Dataservices.getAllCourses().then(res => setCour(res.data));
+    useEffect(async ()=> {
+		    await Dataservices.getAllDepartments().then(res => setDep(res.data));
+		    await Dataservices.getAllInstructors().then(res => setIns(res.data));
+			await Dataservices.getAllCourses().then(res => setCour(res.data));
     },[]);
 
     useEffect(()=> {
-        if(timetable)
-        {
-            createTtm();
             reloadTtmList();
-        }else{
-            reloadTtmList();
-        }
-    },[timetable]);
-    useEffect(()=> {
+    },[timetables]);
+
+	useEffect(()=> {
 		loadData();
     },[semester,section,depart]);
-	useEffect(()=> {
-        if(uttm)
-        {
-            updateTtm();
-            reloadTtmList();
-        }else{
-            reloadTtmList();
-        }
-    },[uttm]);
+
     const reloadTtmList = ()=>{
         Dataservices.getAllTimetable()
             .then((res) => {
@@ -68,34 +52,23 @@ const TmList = () => {
                setTimetables(timetables.filter(ttm => ttm._id !== id));
            })
     }
-
-    const createTtm =() => {
-        Dataservices.createTimetable(ttmId,timetable.subj,timetable.room)
-           .then(res => {
-               console.log(res);
-        })
-		reloadTtmList();
-    }
 	
 
     const updateModal = (id) =>{
-        Dataservices.findTimetable(id).then(res => setFormData({subj:res.data.subject,room:res.data.room})).then(() => setForm1(true)).catch(err => console.log(err));
+        Dataservices.findTimetable(id).then(res => setFormData({id:id,subj:res.data.subject,room:res.data.room})).then(() => setForm1(true)).catch(err => console.log(err));
 		settmId(id);
     }
-    const updateTtm = () => {
-		Dataservices.updateTimetable(ttmId,uttm.subj,uttm.room);
-    }
+
 	const clickEvent = (id) =>{
 		setForm(true);
 		settmId(id);
 	}
 	const gettime = (id) =>{
 		if(timetables.find(tm => tm._id==id)){
-			return cour.map(cr => {if(cr._id==timetables.find(tm => tm._id==id).subject){
-				return <div><div onClick={() => updateModal(id)}><span>{cr.name}</span><br></br><span>
-					{ins.find(inst => inst._id===cr.instructor).name}
-				</span><br></br><span>{timetables.find(tm => tm._id==id).room}</span><br></br></div><Button type="danger" icon={<DeleteOutlined/>} size="small" onClick={() => deleteTtm(id)}>Delete</Button></div>;}
-			})
+			let timetable = timetables.find(tm => tm._id==id)
+				return <div key={id}><div onClick={() => updateModal(id)}><span>{timetable.subject.name}</span><br></br><span>
+					{timetable.subject.instructor.name}
+				</span><br></br><span>{timetable.room}</span><br></br></div><Button type="danger" icon={<DeleteOutlined/>} size="small" onClick={() => deleteTtm(id)}>Delete</Button></div>;
 		}
 		else{
 			return <Button onClick={() => clickEvent(id)} type="primary" icon={<PlusOutlined/>}>Create</Button>
@@ -185,7 +158,8 @@ const TmList = () => {
 	]
     return (
         <div>
-			      <Select
+			<Select
+				key='department'
 				placeholder="Select Department"
 				allowClear
 				onChange={(value) => setDepart(value) }
@@ -195,16 +169,18 @@ const TmList = () => {
 			}
 			</Select>
 			<Select
+				key='semester'
 				placeholder="Select Semester"
 				allowClear
 				onChange={(value) => setSemester(value) }
 			>
 			{
-				dep.map(ss => { if(ss.name==depart){return <Option key={ss.semester} value={ss.semester}>{ss.semester}</Option>}})
+				dep.map((ss,index) => { if(ss.name==depart){return <Option key={index} value={ss.semester}>{ss.semester}</Option>}})
 			}
 			</Select>
 
 			<Select
+				key='section'
 				placeholder="Select Section"
 				allowClear
 				onChange={(value) => setSection(value) }
@@ -214,9 +190,9 @@ const TmList = () => {
 			}
 			</Select>
 
-            <CollectionsPage setTimetable={setTimetable} cour={cour} form={form} setForm={setForm}/>
-            <CollectionsPage1 formData={formData} setuTtm={setuTtm} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
-            <Table dataSource={data} columns={columns} />;
+            <CollectionsPage cour={cour} form={form} setForm={setForm} ttmId={ttmId}/>
+            <CollectionsPage1 formData={formData} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
+            <Table dataSource={data} columns={columns}  pagination={{ pageSize: 5}}/>;
         </div>
     );
 
