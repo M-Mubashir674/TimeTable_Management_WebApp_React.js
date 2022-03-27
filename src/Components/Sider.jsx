@@ -30,6 +30,7 @@ const Sider = ({user}) => {
   
   useEffect(()=> {
     setRole(user=='021-19-0007'?true:false)
+    navigate('/user')
   },[]);
 
   const moveAhead = (path) => {
@@ -74,7 +75,7 @@ const Sider = ({user}) => {
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               <Routes>
-                <Route path='/' element={<Welcome user={user}/>}/>
+                <Route path='/' index element={<Welcome user={user}/>}/>
                 <Route path='/instructor' element={<InsList role={role}/>}/>
                 <Route path='/department' element={<DepartmentsList role={role}/>}/>
                 <Route path='/course' element={<CourseList role={role}/>}/>

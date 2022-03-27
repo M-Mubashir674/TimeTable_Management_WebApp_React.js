@@ -3,15 +3,25 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Dataservices from "../Dataservices";
 import { Row, Col } from 'antd';
+import { useState } from 'react';
 
 const SignUpForm = () => {
   let navigate = useNavigate();
+  const [userStatus,setUserStatus] = useState("");
+  const [userHelp,setUserHelp] = useState("");
+  const [passStatus,setPassStatus] = useState("");
+  const [emailStatus,setEmailStatus] = useState("");
   const onFinish = (values) => {
-    console.log(values);
+    setUserStatus('validating');
+    setEmailStatus('validating');
+    setPassStatus('validating');
     Dataservices.create(values).then(res => {
-      console.log(res.data);
       if(res.data==='OK'){
-        navigate('/token');
+        setUserStatus('success');
+        navigate('/');
+      }else{
+        setUserStatus("error");
+        setUserHelp(res.data.message)
       }
     }).catch(err => console.log(err));
   };
@@ -31,6 +41,9 @@ const SignUpForm = () => {
     >
       <Form.Item
         name="username"
+        hasFeedback
+        validateStatus={userStatus}
+        help={userHelp}
         rules={[
           {
             required: true,
@@ -42,6 +55,8 @@ const SignUpForm = () => {
       </Form.Item>
       <Form.Item
         name="email"
+        hasFeedback
+        validateStatus={emailStatus}
         rules={[
           {
             required: true,
@@ -49,11 +64,13 @@ const SignUpForm = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} type="email" placeholder="Email" />
       </Form.Item>
 
       <Form.Item
         name="pass"
+        hasFeedback
+        validateStatus={passStatus}
         rules={[
           {
             required: true,

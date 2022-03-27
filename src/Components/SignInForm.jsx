@@ -3,14 +3,35 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Dataservices from "../Dataservices";
 import { Row, Col } from 'antd';
+import { useState,useEffect } from 'react';
 
 const SignInForm = ({setUser}) => {
   let navigate = useNavigate();
+  const [userStatus,setUserStatus] = useState("");
+  const [userHelp,setUserHelp] = useState("");
+  const [passStatus,setPassStatus] = useState("");
+  const [passHelp,setPassHelp] = useState("");
+
+
+
   const onFinish = (values) => {
+    setUserStatus("validating");
+    setPassStatus("validating");
     Dataservices.validate(values).then(res => {
       if(res.data==='OK'){
+        setUserStatus("success");
+        setPassStatus("success");
         setUser(values.username);
-          navigate('/user')
+        navigate('/user')
+      }else if(res.data.type==="user"){
+       setUserStatus("error");
+        setUserHelp(res.data.message);
+        setPassStatus("");
+      }else if(res.data.type==="pass"){
+        setUserStatus("success");
+        setUserHelp("");
+        setPassStatus("error");
+        setPassHelp(res.data.message);
       }
     }).catch(err => console.log(err));
   };
@@ -30,6 +51,9 @@ const SignInForm = ({setUser}) => {
     >
       <Form.Item
         name="username"
+        hasFeedback
+        validateStatus={userStatus}
+        help={userHelp}
         rules={[
           {
             required: true,
@@ -41,6 +65,9 @@ const SignInForm = ({setUser}) => {
       </Form.Item>
       <Form.Item
         name="pass"
+        hasFeedback
+        validateStatus={passStatus}
+        help={passHelp}
         rules={[
           {
             required: true,
