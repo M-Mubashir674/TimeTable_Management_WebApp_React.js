@@ -82,45 +82,45 @@ const TmList = ({role}) => {
 		{
 			day:'Mon',
 			nine:'mon9'+depart+semester+section,
-			ten:'mon10'+depart+semester+section,
-			eleven:'mon11'+depart+semester+section,
-			twelve:'mon12'+depart+semester+section,
-			one:'mon1'+depart+semester+section
+			ten:'mon113'+depart+semester+section,
+			eleven:'mon2'+depart+semester+section,
+			twelve:'mon3'+depart+semester+section,
+			one:'mon4'+depart+semester+section
 		},{
 			day:'Tue',
 			nine:'tue9'+depart+semester+section,
-			ten:'tue10'+depart+semester+section,
-			eleven:'tue11'+depart+semester+section,
-			twelve:'tue12'+depart+semester+section,
-			one:'tue1'+depart+semester+section
+			ten:'tue123'+depart+semester+section,
+			eleven:'tue2'+depart+semester+section,
+			twelve:'tue3'+depart+semester+section,
+			one:'tue4'+depart+semester+section
 		},{
 			day:'Wed',
 			nine:'wed9'+depart+semester+section,
-			ten:'wed10'+depart+semester+section,
-			eleven:'wed11'+depart+semester+section,
-			twelve:'wed12'+depart+semester+section,
-			one:'wed1'+depart+semester+section
+			ten:'wed113'+depart+semester+section,
+			eleven:'wed2'+depart+semester+section,
+			twelve:'wed3'+depart+semester+section,
+			one:'wed4'+depart+semester+section
 		},{
 			day:'Thu',
 			nine:'thu9'+depart+semester+section,
-			ten:'thu10'+depart+semester+section,
-			eleven:'thu11'+depart+semester+section,
-			twelve:'thu12'+depart+semester+section,
-			one:'thu1'+depart+semester+section
+			ten:'thu113'+depart+semester+section,
+			eleven:'thu2'+depart+semester+section,
+			twelve:'thu3'+depart+semester+section,
+			one:'thu4'+depart+semester+section
 		},{
 			day:'Fri',
 			nine:'fri9'+depart+semester+section,
-			ten:'fri10'+depart+semester+section,
-			eleven:'fri11'+depart+semester+section,
-			twelve:'fri12'+depart+semester+section,
-			one:'fri1'+depart+semester+section
+			ten:'fri113'+depart+semester+section,
+			eleven:'fri2'+depart+semester+section,
+			twelve:'fri3'+depart+semester+section,
+			one:'fri4'+depart+semester+section
 		},{
 			day:'Sat',
 			nine:'sat9'+depart+semester+section,
-			ten:'sat10'+depart+semester+section,
-			eleven:'sat11'+depart+semester+section,
-			twelve:'sat12'+depart+semester+section,
-			one:'sat1'+depart+semester+section
+			ten:'sat113'+depart+semester+section,
+			eleven:'sat2'+depart+semester+section,
+			twelve:'sat3'+depart+semester+section,
+			one:'sat4'+depart+semester+section
 		}
 		]);
 	}
@@ -135,25 +135,25 @@ const TmList = ({role}) => {
 			return gettime(id);
 		}	
 	},{
-		title:"10:00",
+		title:"11:30",
 		dataIndex: 'ten',
 		render: (id) => {
 			return gettime(id)
 		}
 	},{
-		title:"11:00",
+		title:"02:00",
 		dataIndex: 'eleven',
 		render: (id) => {
 			return gettime(id)
 		}
 	},{
-		title:"12:00",
+		title:"03:00",
 		dataIndex: 'twelve',
 		render: (id) => {
 			return gettime(id)
 		}
 	},{
-		title:"01:00",
+		title:"04:00",
 		dataIndex: 'one',
 		render: (id) => {
 			return gettime(id)
