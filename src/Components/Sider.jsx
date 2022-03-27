@@ -13,21 +13,24 @@ import {
   FileTextOutlined,
   ScheduleOutlined,
 } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Welcome from './Welcome';
 
 
 const Sider = ({user}) => {
   const { Header, Content, Footer, Sider } = Layout;
   const { SubMenu } = Menu;
+  const [role,setRole] = useState(false);
   let navigate = useNavigate();
-  
   const [collapsed,setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
   };
   
+  useEffect(()=> {
+    setRole(user=='021-19-0007'?true:false)
+  },[]);
 
   const moveAhead = (path) => {
     navigate(path);
@@ -55,16 +58,6 @@ const Sider = ({user}) => {
             <Menu.Item key="4" icon={<ScheduleOutlined />}  onClick={() => moveAhead('timetable')}>
               TimeTable
             </Menu.Item>
-
-            {/* <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
-            </SubMenu> */}
             <Menu.Item key="5" icon={<LogoutOutlined />} onClick={() => moveAhead('/')}>
               Logout
             </Menu.Item>
@@ -82,10 +75,10 @@ const Sider = ({user}) => {
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               <Routes>
                 <Route path='/' element={<Welcome user={user}/>}/>
-                <Route path='/instructor' element={<InsList/>}/>
-                <Route path='/department' element={<DepartmentsList/>}/>
-                <Route path='/course' element={<CourseList/>}/>
-                <Route path='/timetable' element={<TmList/>}/>
+                <Route path='/instructor' element={<InsList role={role}/>}/>
+                <Route path='/department' element={<DepartmentsList role={role}/>}/>
+                <Route path='/course' element={<CourseList role={role}/>}/>
+                <Route path='/timetable' element={<TmList role={role}/>}/>
               </Routes>
             </div>
           </Content>

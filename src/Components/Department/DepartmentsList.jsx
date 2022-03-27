@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
   
 
-const DepartmentsList = () => {
+const DepartmentsList = ({role}) => {
 
     const [departments,setDepartments] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -54,21 +54,27 @@ const DepartmentsList = () => {
             title: 'Section',
             dataIndex: 'section',
             key: 'section',
-        },
-        {
+        }, 
+        ];
+
+        role && columns.push({
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
             render:(id) => {return <div><Button type='danger' onClick={() => deleteDep(id)} icon={<DeleteOutlined/>}>Delete</Button>
-                <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
+                    <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
+                }
             }
-        }
-        ];
+        );
 
     return (
         <div>
-            <CollectionsPage/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            {
+                role && <CollectionsPage/>                
+            }
+            {
+                role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            }
             <Table dataSource={departments} columns={columns}  pagination={{ pageSize: 5}}/>;
         </div>
     );

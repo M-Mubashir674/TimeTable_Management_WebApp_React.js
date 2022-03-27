@@ -6,10 +6,11 @@ import { Button, Table } from "antd";
 import { Select} from 'antd';
 import {
 	PlusOutlined,
-	DeleteOutlined
+	DeleteOutlined,
+	StopOutlined,
 } from '@ant-design/icons';
     
-const TmList = () => {
+const TmList = ({role}) => {
 	let inst = '' ;
 	const {Option} = Select ;
 	const [form,setForm] = useState(false);
@@ -66,12 +67,15 @@ const TmList = () => {
 	const gettime = (id) =>{
 		if(timetables.find(tm => tm._id==id)){
 			let timetable = timetables.find(tm => tm._id==id)
-				return <div key={id}><div onClick={() => updateModal(id)}><span>{timetable.subject.name}</span><br></br><span>
+				return role ? <div key={id}><div onClick={() => updateModal(id)}><span>{timetable.subject.name}</span><br></br><span>
 					{timetable.subject.instructor.name}
-				</span><br></br><span>{timetable.room}</span><br></br></div><Button type="danger" icon={<DeleteOutlined/>} size="small" onClick={() => deleteTtm(id)}>Delete</Button></div>;
+				</span><br></br><span>{timetable.room}</span><br></br></div><Button type="danger" icon={<DeleteOutlined/>} size="small" onClick={() => deleteTtm(id)}>Delete</Button></div>:
+				<div key={id}><div><span>{timetable.subject.name}</span><br></br><span>
+					{timetable.subject.instructor.name}
+				</span><br></br><span>{timetable.room}</span><br></br></div></div>
 		}
 		else{
-			return <Button onClick={() => clickEvent(id)} type="primary" icon={<PlusOutlined/>}>Create</Button>
+			return role ? <Button onClick={() => clickEvent(id)} type="primary" icon={<PlusOutlined/>}>Create</Button> : <StopOutlined/>; // ;
 		}}
 	const loadData = () => {
 		setData([
@@ -189,10 +193,13 @@ const TmList = () => {
 				dep.map(ss => { if(ss.name==depart && ss.semester==semester){return <Option key={ss.section} value={ss.section}>{ss.section}</Option>}})
 			}
 			</Select>
-
-            <CollectionsPage cour={cour} form={form} setForm={setForm} ttmId={ttmId}/>
-            <CollectionsPage1 formData={formData} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
-            <Table dataSource={data} columns={columns}  pagination={{ pageSize: 5}}/>;
+			{
+				role && <CollectionsPage cour={cour} form={form} setForm={setForm} ttmId={ttmId}/>
+			}
+			{
+				role && <CollectionsPage1 formData={formData} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
+			}            
+            <Table dataSource={data} columns={columns}  pagination={{ pageSize: 6}}/>;
         </div>
     );
 

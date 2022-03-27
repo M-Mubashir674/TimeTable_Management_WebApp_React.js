@@ -11,7 +11,7 @@ import {
 import { render } from "react-dom";
   
 
-const InsList = () => {
+const InsList = ({role}) => {
 
     const [instructors,setInstructors] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -53,21 +53,27 @@ const InsList = () => {
             title: 'Qualification',
             dataIndex: 'qualification',
             key: 'qualification',
-        },
-        {
+        }
+        ];
+
+        role && columns.push({
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
             render:(id) => {return <div><Button type='danger' icon={<DeleteOutlined/>} onClick={() => deleteIns(id)}>Delete</Button>
                 <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
             }
-        }
-        ];
+        });
 
     return (
         <div>
-            <CollectionsPage/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            {
+                role && <CollectionsPage/>
+
+            }
+            {
+                role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
+            }            
             <Table dataSource={instructors} columns={columns} pagination={{ pageSize: 5}}/>;
         </div>
     );

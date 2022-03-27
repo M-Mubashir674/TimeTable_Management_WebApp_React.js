@@ -76,7 +76,7 @@ class DataServices{
         return http.delete(`/user${id}`);
     }
     validate(data){
-        return http.get(`/users/${data.username}/${data.password}`);
+        return http.get(`/user/${data.username}/${data.pass}`);
     }
 }
 

@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
   
 
-const CourseList = () => {
+const CourseList = ({role}) => {
 
     const [courses,setCourses] = useState([]);
     const [ins,setIns] = useState([]);
@@ -73,20 +73,25 @@ const CourseList = () => {
             render:(dept) => {
                 return <span key={dept._id}>{dept.name}/{dept.semester}/{dept.section}</span>;
             }
-        },
-        {
+        }
+        ];
+
+        role && columns.push({
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
             render:(id) => {return <div key={id}><Button type='danger' icon={<DeleteOutlined/>} onClick={() => deleteCourse(id)}>Delete</Button>
                 <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
             }
-        }
-        ];
+        });
     return (
         <div>
-            <CollectionsPage ins={ins} dep={dep}/>
-            <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} ins={ins} dep={dep}/>
+            {
+                role && <CollectionsPage ins={ins} dep={dep}/>
+            }
+            {
+                role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} ins={ins} dep={dep}/>
+            }            
             <Table dataSource={courses} columns={columns} pagination={{ pageSize: 5}} />;
         </div>
     );
