@@ -39,6 +39,9 @@ const DepartmentsList = ({role}) => {
         Dataservices.findDepartment(id).then(res => setFormData({id:id,name:res.data.name,semester:res.data.semester,section:res.data.section})).then(() => setVisible(true)).catch(err => console.log(err));
     }
 
+    const download=()=>{
+    }
+
     const columns = [
         {
             title: 'Name',
@@ -75,7 +78,8 @@ const DepartmentsList = ({role}) => {
             {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
             }
-            <Table dataSource={departments} columns={columns}  pagination={{ pageSize: 5}}/>;
+            <Table id='table' dataSource={departments} columns={columns}  pagination={{ pageSize: 5}}/>;
+            <button onClick={download}>Hello </button>
         </div>
     );
 

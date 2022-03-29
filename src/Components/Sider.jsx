@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { Routes,Route } from "react-router-dom";
-import { Layout, Menu, Breadcrumb,Image } from 'antd';
+import { Layout, Menu, Breadcrumb,Avatar, Typography } from 'antd';
 import DepartmentsList from "./Department/DepartmentsList";
+import Title from 'antd/lib/typography/Title';
+import logo from "./topLogo.png"
 import CourseList from "./Course/CourseList";
 import InsList from "./Instructor/InsList";
 import TmList from "./Timetable/TmList";
 import {
+  UserOutlined,
+  BellOutlined,
+  SettingOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
   HomeOutlined,
   LogoutOutlined,
   SolutionOutlined,
@@ -19,13 +26,12 @@ import Welcome from './Welcome';
 
 const Sider = ({user}) => {
   const { Header, Content, Footer, Sider } = Layout;
-  const { SubMenu } = Menu;
   const [role,setRole] = useState(false);
   let navigate = useNavigate();
   const [collapsed,setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
-    setCollapsed(collapsed);
+    setCollapsed(!collapsed);
   };
   
   useEffect(()=> {
@@ -38,38 +44,54 @@ const Sider = ({user}) => {
   }
   
     return (
-   <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible  collapsed={collapsed} onCollapse={onCollapse}>
-          <div className="logo" >
-            <h1 style={{ color: 'white', fontSize: '2em',margin:'10px 1em'}}>SIBAU</h1>
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div className="logo" style={{backgroundColor:'white' }}>
+            <img src={logo} style={{width:'30%',marginLeft:'10%',marginRight:'10%'}}/>
+            <Title style={{display:'inline-block',fontFamily:'cursive'}}>MI</Title>
+            <Title style={{display:'inline-block',fontSize:'120%',fontFamily:'fantasy'}}>T.</Title>
           </div>
-          <Menu theme="dark"  defaultSelectedKeys={['8']} mode="inline">
-            <Menu.Item key="8" icon={<HomeOutlined/>}  onClick={() => moveAhead('')}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1" icon={<HomeOutlined/>}  onClick={() => moveAhead('')}>
               Home
             </Menu.Item>
-            <Menu.Item key="1" icon={<DatabaseOutlined />}  onClick={() => moveAhead('department')}>
+            <Menu.Item key="2" icon={<DatabaseOutlined />}  onClick={() => moveAhead('department')}>
               Department
             </Menu.Item>
-            <Menu.Item key="2" icon={<SolutionOutlined />}  onClick={() => moveAhead('instructor')}>
+            <Menu.Item key="3" icon={<SolutionOutlined />}  onClick={() => moveAhead('instructor')}>
               Instructor
             </Menu.Item>
-            <Menu.Item key="3" icon={<FileTextOutlined />}  onClick={() => moveAhead('course')}>
+            <Menu.Item key="4" icon={<FileTextOutlined />}  onClick={() => moveAhead('course')}>
               Course
             </Menu.Item>
-            <Menu.Item key="4" icon={<ScheduleOutlined />}  onClick={() => moveAhead('timetable')}>
+            <Menu.Item key="5" icon={<ScheduleOutlined />}  onClick={() => moveAhead('timetable')}>
               TimeTable
             </Menu.Item>
-            <Menu.Item key="5" icon={<LogoutOutlined />} onClick={() => moveAhead('/')}>
+            <Menu.Item key="6" icon={<LogoutOutlined />} onClick={() => moveAhead('/')}>
               Logout
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout" >
-          <Header className="site-layout-background" style={{ padding: 0 ,margin:0}}>
-          <marquee style={{ color: 'white', fontSize: '2em' }}>MI t. Time Table</marquee>
+          <Header className="site-layout-background" style={{ padding: 5 }}>
+            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: () => onCollapse(collapsed),
+                style:{fontSize: '200%',color:'white'}
+            })}
+            <Avatar style={{float:'right',margin:'1%'}}/>
+            <SettingOutlined style={{fontSize: '200%',float:'right',margin:'1%',color:'white'}}/>
+            <BellOutlined style={{fontSize: '200%',float:'right',margin:'1%',color:'white'}} />
           </Header>
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+            }}
+          >
+            <Breadcrumb>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>{user}</Breadcrumb.Item>
             </Breadcrumb>
