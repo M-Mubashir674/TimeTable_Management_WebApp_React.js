@@ -45,6 +45,8 @@ const SignInForm = ({setUser}) => {
       name="normal_login"
       className="login-form"
       initialValues={{
+        username:'abc',
+        pass:'abc',
         remember: true,
       }}
       onFinish={onFinish}
@@ -61,7 +63,7 @@ const SignInForm = ({setUser}) => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
       </Form.Item>
       <Form.Item
         name="pass"

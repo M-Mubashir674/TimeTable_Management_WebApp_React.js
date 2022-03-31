@@ -74,7 +74,7 @@ const InsList = ({role}) => {
             {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
             }            
-            <Table dataSource={instructors} columns={columns} pagination={{ pageSize: 5}}/>;
+            <Table dataSource={instructors} columns={columns} pagination={{ pageSize: 5}}  scroll={{ x: 100 }}/>
         </div>
     );
 

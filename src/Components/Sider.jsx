@@ -89,6 +89,7 @@ const Sider = ({user}) => {
               margin: '24px 16px',
               padding: 24,
               minHeight: 280,
+              backgroundColor:'white'
             }}
           >
             <Breadcrumb>
@@ -97,7 +98,7 @@ const Sider = ({user}) => {
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               <Routes>
-                <Route path='/' index element={<Welcome user={user}/>}/>
+                <Route path='/' index element={<Welcome user={user} message={role ? 'add, delete and update' : 'view'}/>}/>
                 <Route path='/instructor' element={<InsList role={role}/>}/>
                 <Route path='/department' element={<DepartmentsList role={role}/>}/>
                 <Route path='/course' element={<CourseList role={role}/>}/>

@@ -92,7 +92,7 @@ const CourseList = ({role}) => {
             {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} ins={ins} dep={dep}/>
             }            
-            <Table dataSource={courses} columns={columns} pagination={{ pageSize: 5}} />;
+            <Table dataSource={courses} columns={columns} pagination={{ pageSize: 5}}  scroll={{ x: 100 }}/>
         </div>
     );
 

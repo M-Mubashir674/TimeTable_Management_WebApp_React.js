@@ -64,7 +64,7 @@ const DepartmentsList = ({role}) => {
             title: 'Actions',
             dataIndex: '_id',
             key: '_id',
-            render:(id) => {return <div><Button type='danger' onClick={() => deleteDep(id)} icon={<DeleteOutlined/>}>Delete</Button>
+            render:(id) => {return <div key={id}><Button type='danger' onClick={() => deleteDep(id)} icon={<DeleteOutlined/>}>Delete</Button>
                     <Button type='primary' onClick={() => updateModal(id)} icon={<EditOutlined/>}>Update</Button></div>
                 }
             }
@@ -78,8 +78,8 @@ const DepartmentsList = ({role}) => {
             {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
             }
-            <Table id='table' dataSource={departments} columns={columns}  pagination={{ pageSize: 5}}/>;
-            <button onClick={download}>Hello </button>
+            <Table id='table' dataSource={departments} columns={columns}  scroll={{ x: 100 }} pagination={{ pageSize: 5}}/>
+            {/* <button onClick={download}>Hello </button> */}
         </div>
     );
 

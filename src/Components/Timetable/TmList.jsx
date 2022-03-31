@@ -11,7 +11,6 @@ import {
 } from '@ant-design/icons';
     
 const TmList = ({role}) => {
-	let inst = '' ;
 	const {Option} = Select ;
 	const [form,setForm] = useState(false);
 	const [form1,setForm1] = useState(false);
@@ -27,9 +26,9 @@ const TmList = ({role}) => {
 	const [section,setSection] = useState(null);
 
     useEffect(async ()=> {
-		    await Dataservices.getAllDepartments().then(res => setDep(res.data));
-		    await Dataservices.getAllInstructors().then(res => setIns(res.data));
-			await Dataservices.getAllCourses().then(res => setCour(res.data));
+		    Dataservices.getAllDepartments().then(res => setDep(res.data));
+		    Dataservices.getAllInstructors().then(res => setIns(res.data));
+			Dataservices.getAllCourses().then(res => setCour(res.data));
     },[]);
 
     useEffect(()=> {
@@ -65,8 +64,8 @@ const TmList = ({role}) => {
 		settmId(id);
 	}
 	const gettime = (id) =>{
-		if(timetables.find(tm => tm._id==id)){
-			let timetable = timetables.find(tm => tm._id==id)
+		if(timetables.find(tm => tm._id===id)){
+			let timetable = timetables.find(tm => tm._id===id)
 				return role ? <div key={id}><div onClick={() => updateModal(id)}><span>{timetable.subject.name}</span><br></br><span>
 					{timetable.subject.instructor.name}
 				</span><br></br><span>{timetable.room}</span><br></br></div><Button type="danger" icon={<DeleteOutlined/>} size="small" onClick={() => deleteTtm(id)}>Delete</Button></div>:
@@ -127,7 +126,8 @@ const TmList = ({role}) => {
 	const columns = [
 	{
 		title:"Day",
-		dataIndex: 'day'
+		dataIndex: 'day',
+		fixed:'left'
 	},{
 		title:"9:00",
 		dataIndex: 'nine',
@@ -179,7 +179,7 @@ const TmList = ({role}) => {
 				onChange={(value) => setSemester(value) }
 			>
 			{
-				dep.map((ss,index) => { if(ss.name==depart){return <Option key={index} value={ss.semester}>{ss.semester}</Option>}})
+				dep.map((ss,index) => { if(ss.name===depart){return <Option key={index} value={ss.semester}>{ss.semester}</Option>}})
 			}
 			</Select>
 
@@ -190,7 +190,7 @@ const TmList = ({role}) => {
 				onChange={(value) => setSection(value) }
 			>
 			{
-				dep.map(ss => { if(ss.name==depart && ss.semester==semester){return <Option key={ss.section} value={ss.section}>{ss.section}</Option>}})
+				dep.map(ss => { if(ss.name===depart && ss.semester===semester){return <Option key={ss.section} value={ss.section}>{ss.section}</Option>}})
 			}
 			</Select>
 			{
@@ -199,7 +199,7 @@ const TmList = ({role}) => {
 			{
 				role && <CollectionsPage1 formData={formData} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
 			}            
-            <Table dataSource={data} columns={columns}  pagination={{ pageSize: 6}}/>;
+            <Table dataSource={data} columns={columns}  pagination={{ pageSize: 6}}  scroll={{ x: 500 }}/>
         </div>
     );
 
