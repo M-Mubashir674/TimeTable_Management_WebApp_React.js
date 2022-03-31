@@ -4,14 +4,17 @@ import Dataservices from "../../Dataservices";
 import CollectionsPage from "./createDep";
 import CollectionsPage1 from "./updateDep";
 import { Button, Table } from "antd";
+import React from "react";
+
 
 import {
     EditOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    DownloadOutlined
 } from '@ant-design/icons';
   
 
-const DepartmentsList = ({role}) => {
+const DepartmentsList = ({role,download}) => {
 
     const [departments,setDepartments] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -39,14 +42,12 @@ const DepartmentsList = ({role}) => {
         Dataservices.findDepartment(id).then(res => setFormData({id:id,name:res.data.name,semester:res.data.semester,section:res.data.section})).then(() => setVisible(true)).catch(err => console.log(err));
     }
 
-    const download=()=>{
-    }
 
     const columns = [
         {
             title: 'Name',
             dataIndex: 'name',
-            key: 'name',
+            key: 'name ',
         },
         {
             title: 'Semester',
@@ -69,7 +70,7 @@ const DepartmentsList = ({role}) => {
                 }
             }
         );
-
+    
     return (
         <div>
             {
@@ -78,11 +79,10 @@ const DepartmentsList = ({role}) => {
             {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
             }
-            <Table id='table' dataSource={departments} columns={columns}  scroll={{ x: 100 }} pagination={{ pageSize: 5}}/>
-            {/* <button onClick={download}>Hello </button> */}
+            <Table dataSource={departments} columns={columns}  scroll={{ x: 100 }} pagination={{ pageSize: 5}}/>
+            <Button type='primary' icon={<DownloadOutlined/>} onClick={download}>Download</Button>
         </div>
     );
-
 }
 
 export default DepartmentsList;

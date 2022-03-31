@@ -8,9 +8,10 @@ import {
 	PlusOutlined,
 	DeleteOutlined,
 	StopOutlined,
+    DownloadOutlined
 } from '@ant-design/icons';
     
-const TmList = ({role}) => {
+const TmList = ({role,download}) => {
 	const {Option} = Select ;
 	const [form,setForm] = useState(false);
 	const [form1,setForm1] = useState(false);
@@ -200,6 +201,7 @@ const TmList = ({role}) => {
 				role && <CollectionsPage1 formData={formData} cour={cour} form1={form1} setForm1={setForm1} ins={ins}/>
 			}            
             <Table dataSource={data} columns={columns}  pagination={{ pageSize: 6}}  scroll={{ x: 500 }}/>
+            <Button type='primary' icon={<DownloadOutlined/>} onClick={download}>Download</Button>
         </div>
     );
 

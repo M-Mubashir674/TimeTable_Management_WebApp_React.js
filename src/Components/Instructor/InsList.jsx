@@ -6,12 +6,12 @@ import CollectionsPage1 from "./updateIns";
 import { Button, Table } from "antd";
 import {
     EditOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    DownloadOutlined
 } from '@ant-design/icons';
-import { render } from "react-dom";
   
 
-const InsList = ({role}) => {
+const InsList = ({role,download}) => {
 
     const [instructors,setInstructors] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -75,6 +75,7 @@ const InsList = ({role}) => {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData}/>
             }            
             <Table dataSource={instructors} columns={columns} pagination={{ pageSize: 5}}  scroll={{ x: 100 }}/>
+            <Button type='primary' icon={<DownloadOutlined/>} onClick={download}>Download</Button>
         </div>
     );
 

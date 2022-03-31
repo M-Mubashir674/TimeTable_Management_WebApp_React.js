@@ -5,11 +5,12 @@ import CollectionsPage1 from "./updateCourse";
 import { Button, Table } from "antd";
 import {
     EditOutlined,
-    DeleteOutlined
+    DeleteOutlined,
+    DownloadOutlined
 } from '@ant-design/icons';
   
 
-const CourseList = ({role}) => {
+const CourseList = ({role,download}) => {
 
     const [courses,setCourses] = useState([]);
     const [ins,setIns] = useState([]);
@@ -93,6 +94,7 @@ const CourseList = ({role}) => {
                 role && <CollectionsPage1 visible={visible} setVisible={setVisible} formData={formData} ins={ins} dep={dep}/>
             }            
             <Table dataSource={courses} columns={columns} pagination={{ pageSize: 5}}  scroll={{ x: 100 }}/>
+            <Button type='primary' icon={<DownloadOutlined/>} onClick={download}>Download</Button>
         </div>
     );
 

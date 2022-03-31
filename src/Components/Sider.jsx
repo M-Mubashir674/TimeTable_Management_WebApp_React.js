@@ -7,8 +7,10 @@ import logo from "./topLogo.png"
 import CourseList from "./Course/CourseList";
 import InsList from "./Instructor/InsList";
 import TmList from "./Timetable/TmList";
+import * as htmlToImage from 'html-to-image';
+import jsPDF from 'jspdf';
+
 import {
-  UserOutlined,
   BellOutlined,
   SettingOutlined,
   MenuUnfoldOutlined,
@@ -42,6 +44,21 @@ const Sider = ({user}) => {
   const moveAhead = (path) => {
     navigate(path);
   }
+
+  const download=()=>{
+    htmlToImage.toPng(document.querySelector('Table'), { quality: 0.95 })
+    .then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = 'my-image-name.jpeg';
+      const pdf = new jsPDF();
+      const imgProps= pdf.getImageProperties(dataUrl);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(dataUrl, 'PNG', 0, 0,pdfWidth, pdfHeight);
+      pdf.save("download.pdf"); 
+    });
+  }
+
   
     return (
       <Layout>
@@ -99,10 +116,10 @@ const Sider = ({user}) => {
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               <Routes>
                 <Route path='/' index element={<Welcome user={user} message={role ? 'add, delete and update' : 'view'}/>}/>
-                <Route path='/instructor' element={<InsList role={role}/>}/>
-                <Route path='/department' element={<DepartmentsList role={role}/>}/>
-                <Route path='/course' element={<CourseList role={role}/>}/>
-                <Route path='/timetable' element={<TmList role={role}/>}/>
+                <Route path='/instructor' element={<InsList role={role} download={download}/>}/>
+                <Route path='/department' element={<DepartmentsList role={role} download={download}/>}/>
+                <Route path='/course' element={<CourseList role={role} download={download}/>}/>
+                <Route path='/timetable' element={<TmList role={role} download={download}/>}/>
               </Routes>
             </div>
           </Content>
