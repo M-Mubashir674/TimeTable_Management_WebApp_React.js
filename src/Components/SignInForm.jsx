@@ -37,11 +37,9 @@ const SignInForm = ({setUser}) => {
   };
 
   return (
-    <>
-    <Row>
-      <Col span={6} offset = {8} style={{background:"white" , borderRadius:"15px", marginTop:"10%", padding:"0px 36px 0px 15px", boxShadow:"0px 13px 20px #00000014" }}>  
-      <h4 style={{padding:"15px"}}>Login</h4>
+    <div style={{display:'flex',justifyContent:'center',marginTop:'10%'} }>
     <Form
+      style={{background:"white" , borderRadius:"15px", padding:"0px 36px 0px 15px", boxShadow:"0px 13px 20px #00000014"}}
       name="normal_login"
       className="login-form"
       initialValues={{
@@ -51,6 +49,7 @@ const SignInForm = ({setUser}) => {
       }}
       onFinish={onFinish}
     >
+      <h4 style={{padding:"15px"}}>Signin</h4>
       <Form.Item
         name="username"
         hasFeedback
@@ -100,9 +99,9 @@ const SignInForm = ({setUser}) => {
         Or <a onClick={() => navigate('/signup')}>Sign Up!</a>
       </Form.Item>
     </Form>
-    </Col>
-    </Row>
-  </>
+    {/* </Col>
+    </Row> */}
+  </div>
   );
 };
 
